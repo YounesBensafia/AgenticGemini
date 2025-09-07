@@ -2,7 +2,7 @@ from core.client import GeminiClient
 import sys
 from google.genai import types
 from core.runner import generate_response_from_gemini
-
+from functions.get_files_info import get_files_info
 def main():
     verbose=False
     if len(sys.argv) < 2:
@@ -20,6 +20,9 @@ def main():
         print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
     else:
         print(response.text, end="")
-
 if __name__ == "__main__":
-    main()
+    # main()
+    path = "calculator"
+    sub_path = "pkg"
+    print(get_files_info(path, sub_path))
+
