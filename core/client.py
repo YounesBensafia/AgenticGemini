@@ -1,5 +1,5 @@
 from google import genai
-from config.config import initialize_api_key, model_name
+from config.config import initialize_api_key, MODEL_NAME
 
 class GeminiClient:
     def __init__(self):
@@ -8,7 +8,7 @@ class GeminiClient:
 
     def generate(self, prompt: str):
         response = self.client.models.generate_content(
-            model=model_name,
+            model=MODEL_NAME,
             contents=prompt
         )
 

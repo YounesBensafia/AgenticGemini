@@ -9,4 +9,5 @@ def initialize_api_key() -> str:
         raise ValueError("API_KEY not found in environment variables.")
     return api_key
 
-model_name = os.getenv("MODEL_NAME", "gemini-1.5-flash")
+MODEL_NAME = os.getenv("MODEL_NAME", "gemini-1.5-flash")
+MAX_CHARS = 10000

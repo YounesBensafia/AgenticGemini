@@ -1,15 +1,21 @@
 import sys
 import os
 
-# Add the parent directory to the path so we can import modules from there
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from functions.get_files_info import get_files_info
+from functions.get_file_content import get_file_content
 
 def main():
     working_dir = "calculator"
-    print(get_files_info(working_dir,"."))
-    print(get_files_info(working_dir, "pkg"))
+    sub_dir = "pkg"
+    git_file_content = get_file_content(working_dir, "main.py")
+    print("File Content:")
+    print(git_file_content)
+    print("=====================")
+    git_file_content = get_file_content(working_dir, "./bin/cat")
+    print("File Content:")
+
 
 if __name__ == "__main__":
     main()
