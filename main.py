@@ -8,6 +8,7 @@ from functions.get_files_info import schema_get_files_info
 from functions.run_python_file import schema_run_python_file
 from functions.write_file import schema_write_file
 from functions.get_file_content import schema_get_file_content
+from call_function import call_function
 def main():
     verbose=False
     if len(sys.argv) < 2:
@@ -27,7 +28,8 @@ def main():
     response = generate_response_from_gemini(prompt, SYSTEM_PROMPT, available_functions)
     if response.function_calls:
         for func_call_part in response.function_calls:
-            print(f"\nFunction Call: {func_call_part.name}")
+            result = call_function(func_call_part, verbose)
+            print(result)
     else:
         print(response.text)
     if verbose:
@@ -35,6 +37,7 @@ def main():
         print(f"User prompt: {prompt}")
         print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}")
         print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
+    
     
 if __name__ == "__main__":
     main()
