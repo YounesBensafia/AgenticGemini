@@ -1,5 +1,7 @@
 import os 
 import subprocess
+from google.genai import types
+from utils.schema_utils import make_function_schema
 
 def run_python_file(working_directory: str, file_path: str, args=[]):
     abs_working_directory = os.path.abspath(working_directory)
@@ -21,3 +23,23 @@ def run_python_file(working_directory: str, file_path: str, args=[]):
         """
     except subprocess.CalledProcessError as e:
         return f"Error executing {abs_file_path}: {e}"
+
+schema_run_python_file = make_function_schema(
+    name="run_python_file",
+    description="Runs a Python file with the python3 interpreter. accepts additional CLI as an optional array.",
+    params={
+        "file_path": {
+            "type": types.Type.STRING,
+            "description": (
+                "the file to run, relative to the working directory."
+            )
+        },
+        "args": {
+            "type": types.Type.ARRAY,
+            "description": "an optional array of additional CLI arguments to pass to the script.",
+            "items": {
+                "type": types.Type.STRING
+            },
+        }
+    }
+)

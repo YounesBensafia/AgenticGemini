@@ -6,7 +6,7 @@ class GeminiClient:
         self.api_key = initialize_api_key()
         self.client = genai.Client(api_key=self.api_key)
 
-    def generate(self, prompt: str, system_prompt: str, config: types.GenerateContentConfig):
+    def generate(self, prompt: str, config: types.GenerateContentConfig):
         response = self.client.models.generate_content(
             model=MODEL_NAME,
             contents=prompt,

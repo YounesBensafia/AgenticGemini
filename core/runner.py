@@ -7,7 +7,7 @@ def generate_response_from_gemini(prompt: str, system_prompt: str, available_fun
     messages = [types.Content(role="user", parts=[types.Part(text=prompt)])]
     try:
         config = gemini.generate_content_config(system_prompt=system_prompt, tools=[available_functions])
-        response = gemini.generate(messages, system_prompt=system_prompt, config=config)
+        response = gemini.generate(messages, config=config)
         return response
     except ServerError as e:
         print(f"[ERROR] Gemini API error: {e}")

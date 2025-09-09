@@ -5,6 +5,9 @@ from core.runner import generate_response_from_gemini
 from functions.get_files_info import get_files_info
 from prompts.system import SYSTEM_PROMPT
 from functions.get_files_info import schema_get_files_info
+from functions.run_python_file import schema_run_python_file
+from functions.write_file import schema_write_file
+from functions.get_file_content import schema_get_file_content
 def main():
     verbose=False
     if len(sys.argv) < 2:
@@ -16,6 +19,9 @@ def main():
     available_functions = types.Tool(
     function_declarations=[
         schema_get_files_info,
+        schema_get_file_content,
+        schema_write_file,
+        schema_run_python_file
     ]
 )   
     response = generate_response_from_gemini(prompt, SYSTEM_PROMPT, available_functions)
