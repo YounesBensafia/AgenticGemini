@@ -3,6 +3,7 @@ import sys
 from google.genai import types
 from core.runner import generate_response_from_gemini
 from functions.get_files_info import get_files_info
+from prompts.system import SYSTEM_PROMPT
 def main():
     verbose=False
     if len(sys.argv) < 2:
@@ -11,8 +12,7 @@ def main():
     if len(sys.argv) == 3 and sys.argv[2] == "--verbose":
         verbose = True
     prompt = sys.argv[1]
-    response = generate_response_from_gemini(prompt)
-    
+    response = generate_response_from_gemini(prompt, SYSTEM_PROMPT)
     if verbose:
         print("\nUsage Stats:")
         print(f"User prompt: {prompt}")
@@ -21,8 +21,7 @@ def main():
     else:
         print(response.text, end="")
 if __name__ == "__main__":
-    # main()
+    main()
     path = "calculator"
     sub_path = "pkg"
-    print(get_files_info(path, sub_path))
 
