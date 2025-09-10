@@ -24,21 +24,29 @@ def main():
         schema_write_file,
         schema_run_python_file
     ]
-)   
-    response = generate_response_from_gemini(prompt, SYSTEM_PROMPT, available_functions)
-    if response.function_calls:
-        for func_call_part in response.function_calls:
-            result = call_function(func_call_part, verbose)
-            print(result)
-    else:
-        print(response.text)
-    if verbose:
-        print("\nUsage Stats:")
-        print(f"User prompt: {prompt}")
-        print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}")
-        print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
-    
-    
+)  
+    MAX_RETRIES = 20
+    for i in range(0, MAX_RETRIES):
+        messages = [types.Content(role="user", parts=[types.Part(text=prompt)])]
+        response = generate_response_from_gemini(prompt, SYSTEM_PROMPT, available_functions, messages)
+
+        if verbose:
+            print("\nUsage Stats:")
+            print(f"User prompt: {prompt}")
+            print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}")
+            print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
+        if response.candidates:
+            for cand in response.candidates:
+                if cand is None or cand.content is None:
+                    continue
+                messages.append(cand.content)
+        if response.function_calls:
+            for function_call_part in response.function_calls:
+                result = call_function(function_call_part, verbose)
+                messages.append(result)
+        else:
+            # print(response.text)
+            return
 if __name__ == "__main__":
     main()
     path = "calculator"
