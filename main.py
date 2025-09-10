@@ -26,10 +26,9 @@ def main():
     ]
 )  
     MAX_RETRIES = 20
+    messages = [types.Content(role="user", parts=[types.Part(text=prompt)])]
     for i in range(0, MAX_RETRIES):
-        messages = [types.Content(role="user", parts=[types.Part(text=prompt)])]
         response = generate_response_from_gemini(prompt, SYSTEM_PROMPT, available_functions, messages)
-
         if verbose:
             print("\nUsage Stats:")
             print(f"User prompt: {prompt}")
@@ -45,7 +44,7 @@ def main():
                 result = call_function(function_call_part, verbose)
                 messages.append(result)
         else:
-            # print(response.text)
+            print(response.text)
             return
 if __name__ == "__main__":
     main()
